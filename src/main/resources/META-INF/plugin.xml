@@ -1,18 +1,18 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.sitdownrightnow2552.unpolyjetbrains</id>
-    <name>unpoly-jetbrains Template</name>
+    <name>Unpoly Support</name>
     <vendor>sitdownrightnow2552</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.xml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.sitdownrightnow2552.unpolyjetbrains.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
+        <completion.contributor language="HTML"
+                                implementationClass="com.github.sitdownrightnow2552.unpolyjetbrains.UnpolyCompletionContributor"
+                                id="UnpolyCompletionContributor"/>
     </extensions>
-
-    <applicationListeners>
-        <listener class="com.github.sitdownrightnow2552.unpolyjetbrains.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
 </idea-plugin>
