@@ -1,4 +1,4 @@
-package com.github.sitdownrightnow2552.unpolyjetbrains
+package com.github.sitdownrightnow2552.unpolyjetbrains.attribute
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.meta.PsiPresentableMetaData
@@ -27,7 +27,7 @@ class UnpolyAttributeDescriptor(
     }
 
     override fun isEnumerated(): Boolean {
-        return isEnumerated
+        return attribute.isEnumerated
     }
 
     override fun getEnumeratedValues(): Array<String> {

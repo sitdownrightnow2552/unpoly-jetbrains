@@ -1,4 +1,4 @@
-package com.github.sitdownrightnow2552.unpolyjetbrains
+package com.github.sitdownrightnow2552.unpolyjetbrains.attribute
 
 import com.intellij.openapi.util.IconLoader
 
@@ -8,12 +8,15 @@ data class Attribute(
     val values: Set<String> = emptySet(),
     val deprecated: Boolean = false,
     val defaultValue: String = "",
-    val tag: String = "*",
+    val tag: String = "",
     val modifiers: Set<Attribute> = emptySet(),
     val isEnumerated: Boolean = false,
 ) {
     val icon
         get() = ICON
+
+    var dependOn: Attribute? = null
+        private set
 
     companion object {
         // Value modifier start with "*"
@@ -58,7 +61,8 @@ data class Attribute(
                 .toSet()
 
             val isNotContainAnyTypePlaceHolder = supportedValues.find { it.startsWith("<") } == null
-            return Attribute(
+
+            val attribute = Attribute(
                 name = name,
                 text = text,
                 values = supportedValues,
@@ -68,6 +72,8 @@ data class Attribute(
                 modifiers = modifiers,
                 isEnumerated = isNotContainAnyTypePlaceHolder,
             )
+            modifiers.forEach { it.dependOn = attribute }
+            return attribute
         }
 
         @JvmStatic
@@ -88,9 +94,11 @@ data class Attribute(
         }
 
         @JvmStatic
+        ///spring-libman-app
         fun parseNotation(notation: String): Triple<String, String, String> {
-            // TODO: implement parse notation logic
-            return Triple("", "", "")
+            val match = Regex("(.+)?\\[(.+?)(='(.+?)')?\\]").find(notation)!!
+            val (_, tag, name, _, value) = match.groupValues
+            return Triple(tag, name, value)
         }
     }
 }

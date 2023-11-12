@@ -11,6 +11,8 @@
     <depends>com.intellij.modules.xml</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <xml.attributeDescriptorsProvider
+            implementation="com.github.sitdownrightnow2552.unpolyjetbrains.attribute.UnpolyAttributeDescriptorsProvider"/>
         <completion.contributor language="HTML"
                                 implementationClass="com.github.sitdownrightnow2552.unpolyjetbrains.UnpolyCompletionContributor"
                                 id="UnpolyCompletionContributor"/>

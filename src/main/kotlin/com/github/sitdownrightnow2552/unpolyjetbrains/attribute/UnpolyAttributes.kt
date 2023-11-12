@@ -1,16 +1,16 @@
-package com.github.sitdownrightnow2552.unpolyjetbrains
+package com.github.sitdownrightnow2552.unpolyjetbrains.attribute
 
-import com.github.sitdownrightnow2552.unpolyjetbrains.Attribute.Companion.VALUE_BOOLEAN
-import com.github.sitdownrightnow2552.unpolyjetbrains.Attribute.Companion.VALUE_NUMBER
-import com.github.sitdownrightnow2552.unpolyjetbrains.Attribute.Companion.VALUE_REQUIRED
-import com.github.sitdownrightnow2552.unpolyjetbrains.Attribute.Companion.VALUE_SELECTOR
-import com.github.sitdownrightnow2552.unpolyjetbrains.Attribute.Companion.VALUE_URI
-import com.github.sitdownrightnow2552.unpolyjetbrains.Attribute.Companion.of
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_BOOLEAN
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_NUMBER
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_REQUIRED
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_SELECTOR
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_URI
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.of
 
 object UnpolyAttributes {
     private val upFollowModifiers = setOf(
         of("[up-navigate='true']", "Whether this fragment update is considered navigation."),
-        of("[up-target]", "The target selector to update."),
+        of("[up-target]", "The target selector to update.", setOf(VALUE_REQUIRED)),
         of(
             "[up-fallback='true']",
             "Specifies behavior if the target selector is missing from the current page or the server response.",
@@ -18,7 +18,7 @@ object UnpolyAttributes {
         ),
     )
 
-    val attributes = setOf(
+    private val attributes = setOf(
         of(
             notation = "a[up-dash]", deprecated = true,
             text = "Follows this link as fast as possible.",
@@ -53,4 +53,7 @@ object UnpolyAttributes {
             text = "Follows this link on mousedown instead of click. This will save precious milliseconds that otherwise spent on waiting for the user to release the mouse button.",
         ),
     )
+
+    val attributesByTags = attributes.groupBy { it.tag }.mapValues { it.value.toSet() }
+    val allAttributesByNames = attributes.flatMap { listOf(it, *it.modifiers.toTypedArray()) }.associateBy { it.name }
 }
