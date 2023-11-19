@@ -21,15 +21,22 @@ data class Attribute(
     companion object {
         // Value modifier start with "*"
         const val VALUE_REQUIRED = "*required"
+        const val VALUE_ANY = "*any"
 
         // Value placeholder wrapped in "<" and ">"
         const val VALUE_URI = "<uri>"
         const val VALUE_SELECTOR = "<selector>"
         const val VALUE_NUMBER = "<number>"
+        const val VALUE_JSON = "<json>"
+        const val VALUE_HTML = "<html>"
+        const val VALUE_JS = "<js>"
 
         // Value group separated by ","
         const val VALUE_BOOLEAN = "true,false"
-        const val VALUE_HTTP_METHOD = "GET,POST,PUT,DELETE"
+        const val VALUE_HTTP_METHOD = "get,post,put,delete"
+        const val VALUE_TRANSITION =
+            "fade-in,fade-out,move-to-top,move-from-top,move-to-bottom,move-from-bottom,move-to-left,move-from-left,move-to-right,move-from-right,none"
+        const val VALUE_WATCH_EVENT = "change,input,$VALUE_ANY"
 
         private val ICON = IconLoader.getIcon("/pluginIcon.svg", Attribute::class.java)
 
@@ -53,14 +60,15 @@ data class Attribute(
                     }
                 }
             }
+
             supportedValues = supportedValues
-                .filter { !it.startsWith("*") }
+                .filter { !isModifier(it) }
                 .joinToString(",")
                 .split(",")
                 .filter { it.isNotBlank() }
                 .toSet()
 
-            val isNotContainAnyTypePlaceHolder = supportedValues.find { it.startsWith("<") } == null
+            val isNotContainAnyTypePlaceHolder = supportedValues.find { isPlaceHolder(it) } == null
 
             val attribute = Attribute(
                 name = name,
@@ -99,6 +107,14 @@ data class Attribute(
             val match = Regex("(.+)?\\[(.+?)(='(.+?)')?\\]").find(notation)!!
             val (_, tag, name, _, value) = match.groupValues
             return Triple(tag, name, value)
+        }
+
+        private fun isModifier(s: String): Boolean {
+            return s.startsWith("*")
+        }
+
+        private fun isPlaceHolder(s: String): Boolean {
+            return s.startsWith("<") && s.endsWith(">")
         }
     }
 }
