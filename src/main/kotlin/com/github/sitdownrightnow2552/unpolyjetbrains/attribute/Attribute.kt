@@ -37,6 +37,9 @@ data class Attribute(
         const val VALUE_TRANSITION =
             "fade-in,fade-out,move-to-top,move-from-top,move-to-bottom,move-from-bottom,move-to-left,move-from-left,move-to-right,move-from-right,none"
         const val VALUE_WATCH_EVENT = "change,input,$VALUE_ANY"
+        const val VALUE_POSITION = "top,bottom,left,right"
+        const val VALUE_ALIGN = "top,bottom,left,right,center"
+        const val VALUE_LAYER_MATCHING = "current,parent,closest,overlay,ancestor,child,descendant,subtree"
 
         private val ICON = IconLoader.getIcon("/pluginIcon.svg", Attribute::class.java)
 
@@ -68,7 +71,7 @@ data class Attribute(
                 .filter { it.isNotBlank() }
                 .toSet()
 
-            val isNotContainAnyTypePlaceHolder = supportedValues.find { isPlaceHolder(it) } == null
+            val isNotContainAnyTypePlaceHolder = supportedValues.find { isPlaceHolder(it) && it != VALUE_ANY } == null
 
             val attribute = Attribute(
                 name = name,

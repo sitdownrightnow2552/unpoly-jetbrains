@@ -1,7 +1,6 @@
 package com.github.sitdownrightnow2552.unpolyjetbrains
 
 import com.intellij.codeInsight.completion.*
-import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.patterns.XmlPatterns
 import com.intellij.psi.xml.XmlTokenType
@@ -18,12 +17,7 @@ class UnpolyCompletionContributor : CompletionContributor() {
                     context: ProcessingContext,
                     result: CompletionResultSet
                 ) {
-                    val el = LookupElementBuilder.create("up-test")
-                        .withCaseSensitivity(false)
-                        .withTypeText("testing stuff")
-                        .withInsertHandler(XmlTagInsertHandler.INSTANCE)
-
-                    result.addElement(el)
+                    // TODO: support smart autocompletion for attributes that have value modifiers or value group.
                 }
             }
         )

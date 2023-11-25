@@ -1,11 +1,14 @@
 package com.github.sitdownrightnow2552.unpolyjetbrains.attribute
 
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_ALIGN
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_BOOLEAN
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_HTML
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_HTTP_METHOD
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_JS
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_JSON
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_LAYER_MATCHING
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_NUMBER
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_POSITION
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_REQUIRED
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_SELECTOR
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_TRANSITION
@@ -25,7 +28,13 @@ object UnpolyAttributes {
         of("[up-watch-feedback]", "Whether to give navigation feedback while validating.")
     )
 
-    private val UP_FOLLOW_MODIFIERS = setOf(
+    private val ACTION_MODIFIERS = setOf(
+        of("[up-confirm]", "A message the user needs to confirm.", VALUE_REQUIRED),
+        of("[up-duration]", "The duration of the transition or animation (in millisconds).", VALUE_NUMBER),
+        of("[up-easing]", "The timing function that accelerates the transition or animation.", VALUE_REQUIRED),
+    )
+
+    private val UP_FOLLOW_MODIFIERS = ACTION_MODIFIERS + setOf(
         of("[up-navigate='true']", "Whether this fragment update is considered navigation."),
         of("[up-target]", "The target selector to update.", VALUE_REQUIRED),
         of(
@@ -78,8 +87,6 @@ object UnpolyAttributes {
             "The name of an animation to reveal a new fragment when prepending or appending content.",
             VALUE_REQUIRED
         ),
-        of("[up-duration]", "The duration of the transition or animation (in millisconds).", VALUE_NUMBER),
-        of("[up-easing]", "The timing function that accelerates the transition or animation.", VALUE_REQUIRED),
         of(
             "[up-cache='auto']",
             "Whether to read from and write to the cache.",
@@ -115,7 +122,6 @@ object UnpolyAttributes {
         of("[up-save-scroll]", "Whether to save scroll positions before updating the fragment."),
         of("[up-focus='auto']", "What to focus after the new fragment was rendered."),
         of("[up-save-focus]", "Whether to save focus-related state before updating the fragment."),
-        of("[up-confirm]", "A message the user needs to confirm before fragments are updated.", VALUE_REQUIRED),
         of(
             "[up-feedback='true']",
             "Whether to give the link an .up-active class and the targeted element an .up-loading class while loading content."
@@ -249,8 +255,158 @@ object UnpolyAttributes {
         ),
 
         // Layers
+        of(
+            notation = "a[up-accept]",
+            text = "Accepts the current layer when the link is clicked.",
+            modifiers = ACTION_MODIFIERS
+        ),
+        of(
+            notation = "a[up-dismiss]",
+            text = "Dismisses the current layer when the link is clicked.",
+            modifiers = ACTION_MODIFIERS + setOf(
+                of(
+                    "[up-animation]",
+                    "The name of the overlay's close animation.",
+                    VALUE_REQUIRED
+                ),
+            )
+        ),
+        of(
+            notation = "a[up-layer='new']",
+            text = "Follows this link and opens the result in a new overlay.",
+            values = setOf(VALUE_REQUIRED, "new", "swap", "shatter"),
+            modifiers = UP_FOLLOW_MODIFIERS + setOf(
+                of(
+                    "[up-mode]",
+                    "Whether to stack the new overlay onto the current layer or replace existing overlays",
+                    setOf("root", "modal", "drawer", "popup", "cover")
+                ),
+                of(
+                    "[up-mode]",
+                    "Whether to stack the new overlay onto the current layer or replace existing overlays",
+                    setOf("root", "modal", "drawer", "popup", "cover")
+                ),
+                of("[up-size]", "The size of the overlay.", setOf("small", "medium", "large", "grow", "full")),
+                of("[up-class]", "An optional HTML class for the overlay's container element."),
+                of(
+                    "[up-history]",
+                    "Whether history of the overlay content is visible.",
+                    setOf(VALUE_BOOLEAN, "auto")
+                ),
+                of(
+                    "[up-dismissable]", "Whether history of the overlay content is visible.", VALUE_BOOLEAN
+                ),
+                of("[up-animation]", "The name of the opening animation.", setOf(VALUE_REQUIRED, VALUE_TRANSITION)),
+                of(
+                    "[up-on-opened]",
+                    "A JavaScript snippet that is called when the overlay was inserted into the DOM.",
+                    setOf(VALUE_REQUIRED, VALUE_JS)
+                ),
+                of(
+                    "[up-on-accepted]",
+                    "A JavaScript snippet that is called when the overlay was accepted.",
+                    setOf(VALUE_REQUIRED, VALUE_JS)
+                ),
+                of(
+                    "[up-on-dismissed]",
+                    "A JavaScript snippet that is called when the overlay was dismissed.",
+                    setOf(VALUE_REQUIRED, VALUE_JS)
+                ),
+                of(
+                    "[up-accept-event]",
+                    "One or more space-separated event types that will cause this overlay to automatically be accepted when a matching event occurs within the overlay.",
+                    VALUE_REQUIRED
+                ),
+                of(
+                    "[up-dismiss-event]",
+                    "One or more space-separated event types that will cause this overlay to automatically be dismissed when a matching event occurs within the overlay.",
+                    VALUE_REQUIRED
+                ),
+                of(
+                    "[up-accept-location]",
+                    "One or more space-separated URL patterns that will cause this overlay to automatically be accepted when the overlay reaches a matching location.",
+                    setOf(VALUE_REQUIRED, VALUE_URI)
+                ),
+                of(
+                    "[up-dismiss-location]",
+                    "One or more space-separated URL patterns that will cause this overlay to automatically be dismissed when the overlay reaches a matching location.",
+                    setOf(VALUE_REQUIRED, VALUE_URI)
+                ),
+                of(
+                    "[up-position]",
+                    "The position of the popup relative to the { origin } element that opened the overlay.",
+                    VALUE_POSITION
+                ),
+                of(
+                    "[up-align]",
+                    "The alignment of the popup within its { position }.",
+                    VALUE_ALIGN
+                ),
+
+                )
+        ),
         // Fragment API
+        of(
+            notation = "[up-id]", values = VALUE_REQUIRED,
+            text = "Sets an unique identifier for this element"
+        ),
+        of(
+            notation = "[up-keep]",
+            text = "Elements with an [up-keep] attribute will be persisted during fragment updates.",
+            modifiers = setOf(
+                of(
+                    "[up-on-keep]",
+                    "Code to run before an existing element is kept during a page update.",
+                    setOf(VALUE_REQUIRED, VALUE_JS)
+                )
+            )
+        ),
+        of(
+            notation = "[up-source]",
+            text = "Sets this element's source URL for reloading and polling",
+            setOf(VALUE_REQUIRED, VALUE_URI)
+        ),
+        of(
+            notation = "[up-main]",
+            text = "Marks this element as the primary content element of your application layout.",
+        ),
+
         // Passive updates
+        of(
+            notation = "[up-hungry]",
+            text = "Elements with an [up-hungry] attribute are updated whenever the server sends a matching element, even if the element isn't targeted.",
+            modifiers = setOf(
+                of(
+                    "[up-transition]",
+                    "The animated transition to apply when this element is updated.",
+                    setOf(VALUE_REQUIRED, VALUE_TRANSITION)
+                ),
+                of("[up-duration]", "The duration of the transition or animation (in millisconds).", VALUE_NUMBER),
+                of("[up-easing]", "The timing function that accelerates the transition or animation.", VALUE_REQUIRED),
+                of(
+                    "[up-if-layer='current']",
+                    "Only piggy-back on updates on layers that match the given layer reference",
+                    setOf(VALUE_REQUIRED, VALUE_LAYER_MATCHING)
+                ),
+                of(
+                    "[up-on-hungry]",
+                    "Code to run before this element is included in a fragment update.",
+                    setOf(VALUE_REQUIRED, VALUE_JS)
+                ),
+            )
+        ),
+        of(
+            notation = "[up-poll]",
+            text = "Elements with an [up-poll] attribute are reloaded from the server periodically.",
+            modifiers = setOf(
+                of("[up-interval]", "The reload interval in milliseconds.", setOf(VALUE_REQUIRED, VALUE_NUMBER)),
+                of("[up-source]", "The URL from which to reload the fragment.", setOf(VALUE_REQUIRED, VALUE_URI))
+            )
+        ),
+        of(
+            notation = "[up-flashes]", deprecated = true,
+            text = "Experimental. Use an [up-flashes] element to show confirmations, alerts or warnings.",
+        ),
 
         // Animation
         of(
