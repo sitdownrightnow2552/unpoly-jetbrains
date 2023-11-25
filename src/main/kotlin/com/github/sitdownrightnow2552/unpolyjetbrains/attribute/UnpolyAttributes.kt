@@ -435,7 +435,7 @@ object UnpolyAttributes {
             notation = "a[up-emit]", values = VALUE_REQUIRED,
             text = "Emits the given event when this link is clicked.",
             modifiers = setOf(
-                of("up-emit-props='{}'", "The event properties, serialized as JSON.", setOf(VALUE_REQUIRED, VALUE_JSON))
+                of("[up-emit-props='{}']", "The event properties, serialized as JSON.", setOf(VALUE_REQUIRED, VALUE_JSON))
             )
         ),
 

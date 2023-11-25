@@ -107,7 +107,7 @@ data class Attribute(
         @JvmStatic
         ///spring-libman-app
         fun parseNotation(notation: String): Triple<String, String, String> {
-            val match = Regex("(.+)?\\[(.+?)(='(.+?)')?\\]").find(notation)!!
+            val match = Regex("(.+)?\\[(.+?)(='(.+?)')?\\]").find(notation) ?: throw IllegalArgumentException("No match found for notation $notation")
             val (_, tag, name, _, value) = match.groupValues
             return Triple(tag, name, value)
         }
