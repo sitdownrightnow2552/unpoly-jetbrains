@@ -7,7 +7,7 @@
 ## Plugin Description
 
 <!-- Plugin description -->
-This plugin adds support for [unpoly](https://unpoly.com/) tags auto-completion.
+This plugin adds support for [unpoly](https://unpoly.com/) tags autocompletion.
 
 <!-- Plugin description end -->
 
