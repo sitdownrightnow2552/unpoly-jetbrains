@@ -16,6 +16,9 @@ import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Compan
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_WATCH_EVENT
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.of
 
+/**
+ * Declaration of available attributes
+ */
 object UnpolyAttributes {
     private val UP_WATCH_MODIFIERS = setOf(
         of("[up-watch-event='change']", "The event types to observe.", VALUE_WATCH_EVENT),

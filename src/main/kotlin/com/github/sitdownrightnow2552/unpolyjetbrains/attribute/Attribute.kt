@@ -2,14 +2,41 @@ package com.github.sitdownrightnow2552.unpolyjetbrains.attribute
 
 import com.intellij.openapi.util.IconLoader
 
+/**
+ * Contain information about an Unpoly attribute.
+ */
 data class Attribute(
+    /**
+     * Name of the attribute.
+     */
     val name: String,
+    /**
+     * Short description for the attribute.
+     */
     val text: String,
+    /**
+     * Values that this attribute accept, can be simple values, value group, value placeholder or value modifier.
+     */
     val values: Set<String> = emptySet(),
+    /**
+     * Whether this attribute is deprecated (or experimental).
+     */
     val deprecated: Boolean = false,
+    /**
+     * Default value of this attribute.
+     */
     val defaultValue: String = "",
+    /**
+     * The tag that this attribute support. Set to empty to support all tags.
+     */
     val tag: String = "",
+    /**
+     * This attribute modifiers.
+     */
     val modifiers: Set<Attribute> = emptySet(),
+    /**
+     * Whether this attribute is Enumerated, meaning it has a fixed set of value.
+     */
     val isEnumerated: Boolean = false,
 ) {
     val icon
@@ -19,11 +46,11 @@ data class Attribute(
         private set
 
     companion object {
-        // Value modifier start with "*"
+        // Value modifier start with "*".
         const val VALUE_REQUIRED = "*required"
         const val VALUE_ANY = "*any"
 
-        // Value placeholder wrapped in "<" and ">"
+        // Value placeholder wrapped in "<" and ">".
         const val VALUE_URI = "<uri>"
         const val VALUE_SELECTOR = "<selector>"
         const val VALUE_NUMBER = "<number>"
@@ -31,7 +58,7 @@ data class Attribute(
         const val VALUE_HTML = "<html>"
         const val VALUE_JS = "<js>"
 
-        // Value group separated by ","
+        // Value group separated by ",".
         const val VALUE_BOOLEAN = "true,false"
         const val VALUE_HTTP_METHOD = "get,post,put,delete"
         const val VALUE_TRANSITION =
@@ -43,6 +70,15 @@ data class Attribute(
 
         private val ICON = IconLoader.getIcon("/pluginIcon.svg", Attribute::class.java)
 
+        /**
+         * Create an Unpoly attribute using notation syntax.
+         *
+         * @param notation contains information of tag, name and default value, copied from document, for example: a[[up-layer='new']] (a[up-layer='new'], the former one is for escaping kdoc).
+         * @param text the description of attribute.
+         * @param values available value of this attribute.
+         * @param deprecated whether this attribute is deprecated (or experimental).
+         * @param modifiers a set of this attribute modifiers.
+         */
         @JvmStatic
         fun of(
             notation: String,
@@ -55,7 +91,7 @@ data class Attribute(
 
             var supportedValues = values
             if (values.isEmpty()) {
-                // try to set value type if a value was specified in notation but values Set is not specified manually
+                // try to set value type if a value was specified in notation but values-set is not specified manually.
                 for (group in listOf(VALUE_HTTP_METHOD, VALUE_BOOLEAN)) {
                     if (group.split(",").contains(value)) {
                         supportedValues = setOf(VALUE_REQUIRED, group)
@@ -105,9 +141,9 @@ data class Attribute(
         }
 
         @JvmStatic
-        ///spring-libman-app
         fun parseNotation(notation: String): Triple<String, String, String> {
-            val match = Regex("(.+)?\\[(.+?)(='(.+?)')?\\]").find(notation) ?: throw IllegalArgumentException("No match found for notation $notation")
+            val match = Regex("(.+)?\\[(.+?)(='(.+?)')?\\]").find(notation)
+                ?: throw IllegalArgumentException("No match found for notation $notation")
             val (_, tag, name, _, value) = match.groupValues
             return Triple(tag, name, value)
         }
