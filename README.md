@@ -1,6 +1,6 @@
 # unpoly-jetbrains
 
-![Build](https://github.com/sitdownrightnow2552/unpoly-jetbrains/workflows/Build/badge.svg)
+![Build](https://github.com/mawngo/unpoly-jetbrains/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
@@ -21,7 +21,7 @@ This plugin adds support for [unpoly](https://unpoly.com/) tags autocompletion.
 
 - Manually:
 
-  Download the [latest release](https://github.com/sitdownrightnow2552/unpoly-jetbrains/releases/latest) and install it
+  Download the [latest release](https://github.com/mawngo/unpoly-jetbrains/releases/latest) and install it
   manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
