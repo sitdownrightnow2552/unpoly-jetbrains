@@ -410,6 +410,10 @@ object UnpolyAttributes {
             notation = "[up-flashes]", deprecated = true,
             text = "Experimental. Use an [up-flashes] element to show confirmations, alerts or warnings.",
         ),
+        of(
+            notation = "[up-defer]", deprecated = true,
+            text = "Experimental. A placeholder for content that is loaded later from another URL.",
+        ),
 
         // Animation
         of(
