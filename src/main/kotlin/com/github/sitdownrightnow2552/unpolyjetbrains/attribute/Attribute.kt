@@ -49,8 +49,10 @@ data class Attribute(
         // Value modifier start with "*".
         const val VALUE_REQUIRED = "*required"
         const val VALUE_ANY = "*any"
+        const val VALUE_TOGGLEABLE = "*toggleable"
 
         // Value placeholder wrapped in "<" and ">".
+        // TODO: add suggestion for those group.
         const val VALUE_URI = "<uri>"
         const val VALUE_SELECTOR = "<selector>"
         const val VALUE_NUMBER = "<number>"
@@ -98,6 +100,11 @@ data class Attribute(
                         break
                     }
                 }
+            }
+
+            // Since Unpoly 3.8 some attribute can be enabled or disabled using boolean value.
+            if (values.contains(VALUE_TOGGLEABLE)) {
+                supportedValues = values + setOf(VALUE_BOOLEAN)
             }
 
             supportedValues = supportedValues

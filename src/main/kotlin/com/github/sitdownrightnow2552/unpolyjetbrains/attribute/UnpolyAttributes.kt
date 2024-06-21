@@ -1,6 +1,7 @@
 package com.github.sitdownrightnow2552.unpolyjetbrains.attribute
 
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_ALIGN
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_ANY
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_BOOLEAN
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_HTML
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_HTTP_METHOD
@@ -11,6 +12,7 @@ import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Compan
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_POSITION
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_REQUIRED
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_SELECTOR
+import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_TOGGLEABLE
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_TRANSITION
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_URI
 import com.github.sitdownrightnow2552.unpolyjetbrains.attribute.Attribute.Companion.VALUE_WATCH_EVENT
@@ -173,7 +175,7 @@ object UnpolyAttributes {
             text = "Follows this link as fast as possible.",
         ),
         of(
-            notation = "a[up-follow]", values = VALUE_SELECTOR,
+            notation = "a[up-follow]", values = "$VALUE_SELECTOR,$VALUE_TOGGLEABLE",
             text = "Follows this link with JavaScript and updates a fragment with the server response.",
             modifiers = UP_FOLLOW_MODIFIERS,
         ),
@@ -185,10 +187,12 @@ object UnpolyAttributes {
         of(
             notation = "a[up-instant]",
             text = "Follows this link on mousedown instead of click. This will save precious milliseconds that otherwise spent on waiting for the user to release the mouse button.",
+            values = VALUE_TOGGLEABLE
         ),
         of(
             notation = "a[up-preload]",
             text = "Preloads this link when the user hovers over it.",
+            values = "$VALUE_TOGGLEABLE,insert,reveal",
             modifiers = setOf(
                 of(
                     "[up-preload-delay]",
@@ -198,7 +202,7 @@ object UnpolyAttributes {
             )
         ),
         of(
-            notation = "[up-expand]", values = VALUE_SELECTOR,
+            notation = "[up-expand]", values = "$VALUE_SELECTOR,$VALUE_TOGGLEABLE",
             text = "Follows this link on mousedown instead of click. This will save precious milliseconds that otherwise spent on waiting for the user to release the mouse button.",
         ),
 
@@ -220,6 +224,7 @@ object UnpolyAttributes {
         ),
         of(
             notation = "[up-autosubmit]",
+            values = VALUE_TOGGLEABLE,
             text = "Automatically submits a form when a field changes.",
             modifiers = setOf(
                 of("[up-watch-event='input']", "The type of event to watch.", setOf(VALUE_REQUIRED)),
@@ -247,12 +252,12 @@ object UnpolyAttributes {
             text = "Show or hide elements when a form field is set to a given value."
         ),
         of(
-            notation = "[up-validate]", values = VALUE_SELECTOR,
+            notation = "[up-validate]", values = "$VALUE_SELECTOR$VALUE_TOGGLEABLE",
             text = "Renders a new form state when a field changes, to show validation errors or update dependent fields.",
             modifiers = UP_WATCH_MODIFIERS
         ),
         of(
-            notation = "[up-watch]", values = VALUE_REQUIRED,
+            notation = "[up-watch]", values = "$VALUE_REQUIRED,$VALUE_JS,$VALUE_TOGGLEABLE",
             text = "Watches form fields and runs a callback when a value changes.",
             modifiers = UP_WATCH_MODIFIERS
         ),
@@ -356,6 +361,7 @@ object UnpolyAttributes {
         of(
             notation = "[up-keep]",
             text = "Elements with an [up-keep] attribute will be persisted during fragment updates.",
+            values = VALUE_TOGGLEABLE,
             modifiers = setOf(
                 of(
                     "[up-on-keep]",
@@ -377,6 +383,7 @@ object UnpolyAttributes {
         // Passive updates
         of(
             notation = "[up-hungry]",
+            values = VALUE_TOGGLEABLE,
             text = "Elements with an [up-hungry] attribute are updated whenever the server sends a matching element, even if the element isn't targeted.",
             modifiers = setOf(
                 of(
@@ -401,6 +408,7 @@ object UnpolyAttributes {
         of(
             notation = "[up-poll]",
             text = "Elements with an [up-poll] attribute are reloaded from the server periodically.",
+            values = VALUE_TOGGLEABLE,
             modifiers = setOf(
                 of("[up-interval]", "The reload interval in milliseconds.", setOf(VALUE_REQUIRED, VALUE_NUMBER)),
                 of("[up-source]", "The URL from which to reload the fragment.", setOf(VALUE_REQUIRED, VALUE_URI))
@@ -442,7 +450,11 @@ object UnpolyAttributes {
             notation = "a[up-emit]", values = VALUE_REQUIRED,
             text = "Emits the given event when this link is clicked.",
             modifiers = setOf(
-                of("[up-emit-props='{}']", "The event properties, serialized as JSON.", setOf(VALUE_REQUIRED, VALUE_JSON))
+                of(
+                    "[up-emit-props='{}']",
+                    "The event properties, serialized as JSON.",
+                    setOf(VALUE_REQUIRED, VALUE_JSON)
+                )
             )
         ),
 
